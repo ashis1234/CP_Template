@@ -1,0 +1,104 @@
+<snippet>
+	<content><![CDATA[
+
+const int N = 1e3+5;
+
+int n,q;
+string s[N];
+int dp[N][N];
+
+
+void update(int x,int y,int f){
+    for(int i = x+1; i <= n; i += i&-i)
+        for(int j = y+1; j <= n; j += j&-j){
+            dp[i][j] += f;        
+        }
+}
+
+int qry(int x,int y){
+    int r = 0;
+    for(int i = x; i; i -= i&-i)
+        for(int j = y; j; j -= j&-j)
+            r += dp[i][j];
+    return r;
+}
+
+void solve(int tc = 0)
+{
+    cin >> n >> q;
+    
+    for(int i = 0; i < n; ++i){
+        cin >>s[i];
+        for(int j = 0; j < n; ++j){
+            if(s[i][j] == '*')
+                update(i,j,1);
+
+            for(int i1 = 0; i1 <= n; ++i1){
+                for(int j1 = 0; j1 <= n; ++j1)
+                    cout<<dp[i1][j1]<<" ";
+                cout<<"\n";
+            }
+            cout<<"\n";
+        }
+    }
+
+
+    while(q--){
+        int t;
+        cin >> t;
+        if(t == 1){
+            int x,y;
+            cin >> y >> x;
+            --x,--y;
+            update(y,x,s[y][x]=='*'?-1:1);
+            if(s[y][x] == '*')
+                s[y][x] = '.';
+            else
+                s[y][x] = '*';
+        }
+        else{
+            int x1,y1,x2,y2;
+            cin >> y1 >>x1 >> y2 >> x2;
+            cout<<qry(y2,x2) - qry(y1-1,x2) - qry(y2,x1-1) + qry(y1-1,x1-1)<<"\n";
+        }
+    }
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+/*4 3
+.*..
+*.**
+**..
+****
+2 2 2 3 4
+1 3 3
+2 2 2 3 4
+
+3
+4
+ 
+ 
+ */
+ 
+ }
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>forest_queries</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+def z_algo(s):
+    n = len(s)
+    z = [0]*n
+    l = r = 0
+    for i in range(n):
+        if i > r:
+            l = r = i
+            diff = s[r]-s[r-l]
+            r += 1
+            while r < n and (s[r] - s[r-l]) == diff:
+                r+=1
+            z[i] = r-l
+            r-=1
+        else:
+            j = i-l
+            if z[j] + i > r:
+                l = i
+                diff = s[r] - s[r-l]
+                r+=1
+                while r < n and (s[r]-s[r-l])==diff:
+                    r+=1
+                z[i] = r-l
+                r-=1
+            else:
+                z[i] = z[j]
+
+    return z
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>z_algo_python</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

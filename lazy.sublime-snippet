@@ -1,0 +1,68 @@
+<snippet>
+	<content><![CDATA[
+class LaZy{
+    vector<int>lazy,tree,a;
+public:
+    LaZy(int n,vector<int> v){
+        lazy.assign(4*n,-1);
+        a = v;
+        tree.assign(4*n,0);
+    }
+
+    void push(int nd,int ss,int se){
+        int x = lazy[nd];
+        if(x != -1){
+            tree[nd] = x;
+            lazy[nd] = -1;
+        }
+        if(ss != se and x != -1)
+            lazy[2*nd] = lazy[2*nd+1] = x;
+    }
+    void build(int nd,int st,int se){
+        if(st == se){
+            tree[nd] = (1LL<<(a[st-1]-1));
+            return; 
+        }
+        int mid = st + (se-st)/2;
+        build(2*nd,st,mid);
+        build(2*nd+1,mid+1,se);
+        tree[nd] = tree[2*nd] | tree[2*nd+1];
+    }
+
+    void update(int nd,int ss,int se,int l,int r,int val)
+    {
+        push(nd,ss,se);
+        if(ss > r or se < l)
+            return ;
+        if(l <= ss and se <= r)
+        {
+            lazy[nd] = val;
+            push(nd,ss,se); 
+            return;
+        }
+        int mid = (ss+se)/2;
+        update(2*nd,ss,mid,l,r,val);
+        update(2*nd+1,mid+1,se,l,r,val);
+        tree[nd] = tree[2*nd] | tree[2*nd+1];
+    }
+     
+    int query(int nd,int ss,int se,int l,int r)
+    {
+        push(nd,ss,se);
+        if(ss > r or se < l)
+            return 0;
+        if(l <= ss and se <= r){
+            return tree[nd];
+        }
+        int mid = (ss+se)/2;
+        return query(2*nd,ss,mid,l,r) | query(2*nd+1,mid+1,se,l,r);
+    }
+};
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Lazy</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

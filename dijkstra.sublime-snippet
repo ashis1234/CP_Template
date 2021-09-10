@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+#define ipair pair<int,int>
+#define inf 0x3f3f3f3f
+const int N=10;
+vector<ipair>adj[N];
+void addEdge(int u,int v,int w)
+{
+    adj[u].push_back({w,v});
+    adj[v].push_back({w,u});
+}
+void shortestPath(int V,int src)
+{
+    priority_queue<ipair,vector<ipair>,greater<ipair>>pq;
+    vector<int>dist(V,inf);
+    dist[src]=0;
+    pq.push({dist[src],src});
+    while(!pq.empty())
+    {
+        int u=pq.top().second;
+        int w=pq.top().first;
+        pq.pop();
+        if(w > dist[u])
+            continue;
+        for(auto it:adj[u])
+        {
+            int v=it.second;
+            if(dist[v]>(dist[u]+it.first))
+            {
+                dist[v]=dist[u]+it.first;
+                pq.push({dist[v],v});
+            }
+        }
+        
+    }
+    cout<<"Vertex distance from source :"<<src<<"is\n";
+    for(int i=0;i<V;i++)
+    cout<<i<<": "<<dist[i]<<endl;
+}
+]]></content>
+	<tabTrigger>dijkstra</tabTrigger>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!--  -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

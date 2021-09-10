@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+sort(${1:v}.rbegin(),${1:v}.rend()); // sort vector in decending order.
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rsortv</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

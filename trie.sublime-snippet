@@ -1,0 +1,101 @@
+<snippet>
+	<content><![CDATA[
+class Trie
+{
+    public:
+        Trie* children[26];
+        bool endOfWord;
+        Trie():endOfWord(false){
+            for(int i = 0; i < 26; ++i)
+                children[i] = nullptr;
+        }
+        ~Trie(){
+            for(int i = 0; i < 26; ++i)
+                if(children[i]) delete children[i];
+        }
+        
+        void insert(string word)
+        {
+            Trie* curr = this;
+            for(char c: word){
+                if(!curr->children[c-'a']) curr->children[c - 'a'] = new Trie();
+                curr = curr->children[c-'a'];
+            }
+            curr->endOfWord = true;
+        }
+        bool search(string word)
+        {
+            Trie* curr = this;
+            for(char c: word)
+            {
+                if(curr->children[c-'a'])
+                    curr=curr->children[c-'a'];
+                else
+                    return false;
+            }
+            return curr->endOfWord;
+        }
+        bool isempty(Trie *curr)
+        {
+            for(int i=0;i<26; ++i)
+                if(curr->children[i])
+                    return false;
+            return true;
+        }
+        Trie* remove(Trie * t,string word,int ind)
+        {
+            if(t==NULL)
+                return t;
+            if(ind==word.size())
+            {
+                if(t->endOfWord)
+                    t->endOfWord=false;
+                if(isempty(t))
+                {
+                    delete t;
+                    t=NULL;
+                }
+                return t;
+            }
+            t->children[word[ind]-'a']=remove(t->children[word[ind]-'a'],word,ind+1);
+            if(isempty(t) and t->endOfWord==false)
+            {
+                delete t;
+                t=NULL;
+            }
+            return t;
+
+        }
+        void del(string word)
+        {
+            remove(this,word,0);
+        }
+
+        void display(Trie* t,string s)
+        {
+            if(t->endOfWord)
+                cout<<s<<"\n";
+            for(int i=0;i<26;i++)
+                if(t->children[i])
+                    display(t->children[i],s+char(i+'a'));
+        }
+        void show()
+        {
+            display(this,"");
+        }
+
+};
+// Trie trie;
+
+// for(auto string s:word)
+//	trie.insert(s);
+// cout<<trie.search("the")?"Yes":"No";
+
+// trie.del("the");
+// trie.show();
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

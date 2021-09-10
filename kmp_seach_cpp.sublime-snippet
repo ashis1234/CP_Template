@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+vector<int> lps_array(string pat)
+{
+    int m = pat.size();
+    vector<int>lps(m,0);
+    int i = 1, l = 0;
+    while(i < m){
+        if(pat[i] == pat[l]){
+            l++;
+            lps[i]=l;
+            i++;
+        }
+        else if(l > 0)
+            l = lps[l-1];
+        else
+            i++;
+    }
+    return lps;
+}
+
+void kmp_search(string txt, string pat){
+    int n = txt.size();
+    int m = pat.size();
+    int i = 0, j = 0;
+    std::vector<int>lps = lps_array(pat);
+    while(i < n)
+    {
+        if(pat[j] == txt[i]){
+            i++;
+            j++;
+        }
+        else if(j > 0)
+            j = lps[j-1];
+        else
+            i++;
+        if(j==m){
+            cout<<"pattern occur at index "<<(i-m)<<"\n";
+            j = lps[j-1];
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kmp_seach_cpp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

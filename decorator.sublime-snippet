@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+# decorator is a very usefull tool in python that modify and change the behaviour of python clsss or function.
+    def smart_div(div):
+        
+        def f(a,b):
+            if a<b:
+                a,b = b,a
+            return div(a,b)
+        return f
+    
+    def smart_div1(div):
+        def f(x):
+            return div(x,3*x)
+        return f
+
+    @smart_div1
+    @smart_div  
+    def div(a,b):
+        return a/b
+    
+    print(div(2))
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Decorator</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,71 @@
+<snippet>
+	<content><![CDATA[
+
+class Solution:
+    def findLength(self, s1: List[int], s2: List[int]) -> int:
+        
+        n1 = len(s1)
+        n2 = len(s2)
+        def check(x):
+            mod = 1000000007
+            d = 19941229
+            q = 1
+            for i in range(x-1):
+                q *= d
+                q %= mod
+            cur = 0
+            p = 1
+            s = set()
+            for i in range(x):
+                cur *= d
+                cur += s1[i]
+                cur %= mod
+            for i in range(x,n1):
+                s.add(cur)
+                cur -= q*s1[i-x]
+                cur += mod
+                cur %= mod
+                cur *= d
+                cur %= mod
+                cur += s1[i]
+                cur %= mod
+            s.add(cur)
+            cur = 0
+            for i in range(x):
+                cur *= d
+                cur += s2[i]
+                cur %= mod
+            for i in range(x,n2):
+                if cur in s:
+                    return 1
+                cur -= q*s2[i-x]
+                cur += mod
+                cur %= mod
+                cur *= d
+                cur %= mod
+                cur += s2[i]
+                cur %= mod
+            if cur in s:
+                return 1
+            return 0
+
+        l = 0
+        ans = 0
+        r = min(n1,n2)
+        while l <= r:
+            mid = (l+r)>>1
+            if check(mid):
+                ans = mid
+                l = mid+1
+            else:
+                r = mid-1
+        return ans
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Longest_common_substring</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

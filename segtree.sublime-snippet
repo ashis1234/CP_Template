@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+int tree[4*N];
+void build(int n,int st,int end,vector<int> const& a)
+{
+    if(st==end)
+    {
+        tree[n] = a[st];
+        return;
+    }
+    int m=(st+end)/2;
+    build(2*n,st,m,a);
+    build(2*n+1,m+1,end,a);
+    tree[n] = min(tree[2*n],tree[2*n+1]);
+}
+
+void update(int n,int st,int end ,int pos,int val)
+{
+    if(st==end && st==pos)
+    {
+        tree[n] = val;
+        return;
+    }
+    int m=(st+end)/2;
+    if(pos<=m)
+        update(2*n,st,m,pos,val);
+    if(pos>m)
+        update(2*n+1,m+1,end,pos,val);
+    tree[n] = min(tree[2*n],tree[2*n+1]);
+}
+int query(int n,int st,int end,int l,int r)
+{  
+    if(l<=st && end<=r)
+        return tree[n];
+    int m=(st+end)/2;
+    if(r<=m)
+        return query(2*n,st,m,l,r);
+    else if(l>m)
+        return query(2*n+1,m+1,end,l,r);
+    else
+    {
+        int p1,p2;
+        p1=query(2*n,st,m,l,r);
+        p2=query(2*n+1,m+1,end,l,r);
+        return min(p1,p2);
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segtree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

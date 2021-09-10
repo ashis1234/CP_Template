@@ -1,0 +1,73 @@
+<snippet>
+	<content><![CDATA[
+class HLD{
+    vector<int> parent, depth, heavy, head,a, pos;
+    vector<vector<int>>chain;
+    int cur_pos,n;
+public:
+    HLD(vector<vector<int>> const& adj) {
+        n = adj.size();
+        parent = vector<int>(n);
+        depth = vector<int>(n);
+        heavy = vector<int>(n, -1);
+        head = vector<int>(n);
+        pos = vector<int>(n);
+        chain.resize(n);
+        cur_pos = 0;
+        dfs(1, adj);
+        decompose(1, 1, adj);
+        // for(int i = 1; i < n; ++i)
+        //     a[pos[i]] = i;
+        // build(1,1,n-1,a);
+    }
+    int dfs(int v, vector<vector<int>> const& adj) {
+        int size = 1;
+        int max_c_size = 0;
+        for (int c : adj[v]) {
+            if (c != parent[v]) {
+                parent[c] = v, depth[c] = depth[v] + 1;
+                int c_size = dfs(c, adj);
+                size += c_size;
+                if (c_size > max_c_size)
+                    max_c_size = c_size, heavy[v] = c;
+            }
+        }
+        return size;
+    }
+
+    void decompose(int v, int h, vector<vector<int>> const& adj) {
+        head[v] = h, pos[v] = cur_pos++;
+        chain[h].pb(v);
+        if (heavy[v] != -1)
+            decompose(heavy[v], h, adj);
+        for (int c : adj[v]) {
+            if (c != parent[v] && c != heavy[v])
+                decompose(c, c, adj);
+        }
+    }
+    // maximum between two node a and b 
+    int query(int a,int b){
+        int mx = 0;
+        while(head[a] != head[b]){
+            if(depth[a] > depth[b])
+                swap(a,b);
+            int curMax = query(1,1,n-1,pos[head[a]],pos[b]);
+            mx = max(mx,curMax);
+            b = parent[head[b]];
+        }
+        if(depth[a] > depth[b])
+            swap(a,b);
+        int curMax = query(1,1,n-1,pos[a],pos[b]);
+        mx = max(mx,curMax);
+        return mx;
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>HLD</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
+
+

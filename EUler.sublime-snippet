@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+// Euler totient functions says that count number of i(<n) such that gcd(i,n) = 1.
+
+// phi(n) = phi(p1^a * p2^b * p3^c ..)
+
+// phi(a*b) = phi(a) * phi(b)
+
+// phi(p1^a) => 1 to p1^a how many number coprime with p1^a.
+//           => p1^a - count number that divided by p(i.e p,2p,3p,4p....)(A.p series)
+//           => p1^a = p + (n-1)*p
+//           => n = p1^(a-1)
+// so, phi(p1^a) = p1^a - p1^(a-1) = p1^a(1-1/p).
+
+// phi(n) = p1^a * p2^b * p3^b *(1-1/p1)*(1-1/p2)*(1-1/p3).
+// phi(n) = n*(1-1/p1)*(1-1/p2)*(1-1/p3)...
+
+int totient[N];
+void EulerTotient(){
+    // phi(i) = i
+    for(int i = 1; i < N; ++i)
+        totient[i] = i;
+
+    for(int i = 2; i < N; ++i){
+        if(totient[i] == i){
+            // prime
+            for(int j = i+i; j < N; j += i){
+                totient[j] *= (i-1);
+                totient[j] /= i;
+            }
+        }
+        if(i<10)
+        cout<<totient[i]<<" ";
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>EUler</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

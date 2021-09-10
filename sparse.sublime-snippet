@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+const int mx2 = 18;
+int sparse[N][mx2];
+int func(int x,int y){return __gcd(x,y);}
+void buildsparse()
+{
+    for(int i = 0; i < n; ++i)
+      sparse[i][0] = a[i];
+
+    for(int j = 1; (1LL<<j) < n; ++j){
+        for(int i = 0; i+(1LL<<(j-1)) < n; ++i)
+          sparse[i][j] = func(sparse[i][j-1],sparse[i+(1LL<<(j-1))][j-1]);
+    }
+}
+int query(int l,int r){
+  int j = log2(r-l+1);
+  return func(sparse[l][j],sparse[r-(1LL<<j)+1][j]);
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparse</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

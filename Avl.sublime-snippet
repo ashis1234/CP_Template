@@ -1,0 +1,276 @@
+<snippet>
+	<content><![CDATA[
+  /*
+    Auther: ghoshashis545 Ashis Ghosh 😎
+    College: Jalpaiguri Govt Enggineering College
+*/
+#pragma GCC optimize("Ofast")  
+#pragma GCC target("avx,avx2,fma") 
+
+#include <bits/stdc++.h>
+#include<algorithm>
+#include<string>
+using namespace std;
+#define ll int
+#define int long long
+#define ld long double
+#define ff first
+#define ss string 
+#define se second
+#define sp(x) cout << fixed << setprecision(x)
+#define endl "\n"
+#define ub upper_bound
+#define lb lower_bound
+#define vi vector<int>
+#define ipair pair<int,int>
+#define vpi vector<ipair>
+#define clr(a,x) memset(a,x,sizeof(a))
+#define alt(v) v.begin(),v.end()
+#define ralt(v) v.rbegin(),v.rend()
+#define pb emplace_back
+#define mp make_pair
+#define PI 3.1415926535897932384626
+#define cntb(x) __builtin_popcount(x)
+#define fab(i,a,b) for(int i=(a);i<(b);i++)
+#define fba(i,a,b) for(int i=(b);i>=(a);i--)
+
+bool ispoweroftwo(int n){return n&(!(n&(n-1)));}
+int mod=1000000007;
+// int mod=998244353;
+int dx[] = {1,0,-1,0};
+int dy[] = {0,-1,0,1};
+
+bool test  = 0;
+
+const int inf = 1e18;
+const int N = 1e6+5;
+
+int n,m;
+
+class TreeNode{
+public:
+    int key,height;
+    TreeNode *left,*right;
+    TreeNode(int key){
+        this->left = this->right = NULL;
+        this->key = key;
+        this->height = 1;
+    }
+};
+
+
+
+int height(TreeNode *node){
+    if(node == NULL)
+        return 0;
+    return node->height;
+}
+int getbalance(TreeNode * node){
+    if(node == NULL)
+        return 0;
+    return height(node->right) - height(node->left);
+}   
+
+TreeNode * leftRotate(TreeNode *node){
+    TreeNode *r = node->right;
+    TreeNode *r_left = r->left;
+    r->left = node;
+    node->right = r_left;
+    node->height = max(height(node->left),height(node->right))+1;
+    r->height = max(height(r->left),height(r->right))+1;
+    return r;
+}
+
+TreeNode * rightRotate(TreeNode *node){
+    TreeNode *l = node->left;
+    TreeNode *l_right = l->right;
+    l->right = node;
+    node->left = l_right;
+    node->height = max(height(node->left),height(node->right))+1;
+    l->height = max(height(l->left),height(l->right))+1;
+    return l;
+}
+
+
+TreeNode *insert(TreeNode *root,int key){
+    if(root == NULL)
+        return new TreeNode(key);
+    if(root->key < key)
+        root->right = insert(root->right,key);
+    else if(root->key > key)
+        root->left = insert(root->left,key);
+    else
+        return root;
+
+    int balance = getbalance(root);
+
+    // R-R 
+    if(balance > 1 and key > root->right->key)
+        return leftRotate(root);
+    // L-L
+    if(balance < -1 and key < root->left->key)
+        return rightRotate(root);
+    // L-R
+    if(balance < -1 and key > root->left->key){
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+
+    // R-L
+    if(balance > 1 and key < root->right->key){
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    root->height = max(height(root->left),height(root->right))+1;
+    return root;
+}
+
+int getmin(TreeNode *root){
+    while(root->left)
+        root = root->left;
+    return root->key;
+}
+
+TreeNode *deleteNode(TreeNode *root,int key){
+    if(root == NULL)
+        return root;
+    if(root->key < key)
+        root->right = deleteNode(root->right,key);
+    else if(root->key > key)
+        root->left = deleteNode(root->left,key);
+    else{
+        // no child or one child
+        if(root->left == NULL or root->right == NULL){
+            TreeNode *tmp = (root->left?root->left:root->right);
+            // simple delete current node
+            if(tmp == NULL){
+                tmp = root;
+                root = NULL;
+            }
+            // copy child node to parent node
+            else
+                *root = *tmp;
+            free(tmp);
+        }
+        else{
+            int val = getmin(root->right);
+            root->key = val;
+            root->right = deleteNode(root->right,val);
+        }
+    }
+
+    if(root == NULL)
+        return root;
+
+    int balance = getbalance(root);
+
+    // R-R
+    if(balance > 1 and getbalance(root->right) >= 0)
+        root->right = leftRotate(root);
+
+    // R-L
+    if(balance > 1 and getbalance(root->right) < 0){
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    
+    // L-L
+    if(balance < -1 and getbalance(root->left) <= 0)
+        root->right = rightRotate(root);
+
+    // L-R
+    if(balance < -1 and getbalance(root->left) > 0){
+        root->left = leftRotate(root->right);
+        return rightRotate(root);
+    }
+
+    root->height = max(height(root->left),height(root->right))+1;
+    return root;
+}
+
+void inorder(TreeNode *root){
+    if(root){
+        inorder(root->left);
+        cout<<root->key<<" ";
+        inorder(root->right);
+    }
+}
+
+
+
+
+
+
+void solve(int tc = 0)
+{
+    TreeNode *root = NULL;
+    root = insert(root, 9);
+    root = insert(root, 5);
+    root = insert(root, 10);
+    root = insert(root, 0);
+    root = insert(root, 6);
+    root = insert(root, 11);
+    root = insert(root, -1);
+    root = insert(root, 1);
+    root = insert(root, 2);
+    inorder(root);
+    root = deleteNode(root,10);
+    // inorder(root);
+    
+}   
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+signed main()
+{
+    ios_base::sync_with_stdio(false);cin.tie(NULL);
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    int t=1;
+    if(test)
+    cin>>t;
+    for(int i = 1; i <= t; ++i){
+       // cout<<"Case #"<<i<<": ";
+        solve(i);
+    }
+    return 0;
+} 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>AVL</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

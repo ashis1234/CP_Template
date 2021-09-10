@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+n = int(input())
+sz = 1
+s = "a"
+while sz*(sz+1) < 2*n:
+    s += chr(97+sz)
+    sz += 1
+s = list(s)
+rem = sz*(sz+1)//2 - n
+i,c = 1,1
+while i < len(s):
+    k = 1
+    while k*(k+1) <= 2*rem:
+        k+=1
+    k-=1
+    rem -= k*(k+1)//2
+    for j in range(i,i+k):
+        s[j]='a'
+    i += k
+    s[i] = chr(97+c)
+    c+=1
+    i += 1
+print("".join(s))
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Ndistinctsubstring</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+struct euclid{
+    int x,y,gcd;
+    euclid(int _x,int _y,int _gcd):x(_x),y(_y),gcd(_gcd){}
+};
+
+// ax + by = gcd(a,b)
+// gcd(a,b) = gcd(b,a%b) = bx1 + (a%b)y1
+// ax + by = bx1 + (a%b)y1
+// ax + by = bx1 + [a - (a/b) * b]y1
+// ax + by = b[x1 - (a/b)*y1] + ay1
+
+// x = y1
+// y = x1 - (a/b)*y1
+
+euclid findEuclidGcd(int a,int b){
+    if(b == 0)
+        return euclid(1,0,a);
+    euclid small = findEuclidGcd(b,a%b);
+    return euclid(small.y,small.x - (a/b) * small.y,small.gcd);
+}
+// euclid e = findEuclidGcd(24,18);
+// cout<<e.x<<" "<<e.y<<" "<<e.gcd;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Euclid</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+N = 10001
+invfact = [0]*N
+fact = [1]*N
+for i in range(1,N):
+    fact[i] = (fact[i-1]*i)%mod
+invfact[-1] = pow(fact[-1],mod-2,mod)
+for i in range(N-2,-1,-1):
+    invfact[i] = ((i+1)*invfact[i+1])%mod
+
+def nCr(x,y):
+    if y > x:
+        return 0
+    ans = (invfact[x-y]*invfact[y])%mod
+    ans *= fact[x]
+    ans %= mod
+    return ans
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>pre_python</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

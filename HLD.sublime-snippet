@@ -1,0 +1,80 @@
+<snippet>
+	<content><![CDATA[
+class HLD{
+    vector<int> parent, depth, heavy, head, pos;
+    int cur_pos;
+public:
+    int dfs(int v, vector<vector<int>> const& adj) {
+        int size = 1;
+        int max_c_size = 0;
+        for (int c : adj[v]) {
+            if (c != parent[v]) {
+                parent[c] = v, depth[c] = depth[v] + 1;
+                int c_size = dfs(c, adj);
+                size += c_size;
+                if (c_size > max_c_size)
+                    max_c_size = c_size, heavy[v] = c;
+            }
+        }
+        return size;
+    }
+
+    void decompose(int v, int h, vector<vector<int>> const& adj) {
+        head[v] = h, pos[v] = cur_pos++;
+        if (heavy[v] != -1)
+            decompose(heavy[v], h, adj);
+        for (int c : adj[v]) {
+            if (c != parent[v] && c != heavy[v])
+                decompose(c, c, adj);
+        }
+    }
+
+    HLD(vector<vector<int>> const& adj) {
+        int n = adj.size();
+        parent = vector<int>(n);
+        depth = vector<int>(n);
+        heavy = vector<int>(n, -1);
+        head = vector<int>(n);
+        pos = vector<int>(n);
+        cur_pos = 1;
+
+        dfs(0, adj);
+        decompose(0, 0, adj);
+    }
+
+    int query1(int a, int b) {
+        int res = 0;
+        for (; head[a] != head[b]; b = parent[head[b]]) {
+            if (depth[head[a]] > depth[head[b]])
+                swap(a, b);
+            int cur_heavy_path_max = query(1,1,n,pos[head[b]], pos[b]);
+            res = max(res, cur_heavy_path_max);
+        }
+        if (depth[a] > depth[b])
+            swap(a, b);
+        int last_heavy_path_max = query(1,1,n,pos[a], pos[b]);
+        res = max(res, last_heavy_path_max);
+        return res;
+    }
+    int get_pos(int i){
+        return pos[i];
+    }
+    int get_depth(int i){
+        return depth[i];
+    }
+    int get_heavy(int i){
+        return heavy[i];
+    }
+    int get_head(int i){
+        return head[i];
+    }
+     
+};
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>HLD</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

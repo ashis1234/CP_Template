@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+int z_algo(string s)
+{
+    string s1=s;
+    reverse(alt(s1));
+    string t=s+'#'+s1;
+    int n=t.size();
+    vector<int>z(n,0);
+    for(int i=1;i<n;i++){
+        int prev=z[i-1];
+        while(prev>0 and t[i]!=t[prev]){
+            prev=z[prev-1];
+        }
+        z[i]=prev;
+        if(t[i]==t[prev])z[i]+=1;
+    }
+    return z[n-1];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zalgo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

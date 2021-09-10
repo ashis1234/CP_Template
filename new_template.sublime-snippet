@@ -1,0 +1,208 @@
+<snippet>
+	<content><![CDATA[
+
+ /*
+    Auther: ghoshashis545 Ashis Ghosh 😎
+    College: Jalpaiguri Govt Enggineering College
+*/
+#pragma GCC optimize("Ofast")  
+#pragma GCC target("avx,avx2,fma") 
+
+#include <bits/stdc++.h>
+#include<algorithm>
+#include<string>
+using namespace std;
+#define ll int
+#define int long long
+#define ld long double
+#define ff first
+#define ss string 
+#define se second
+#define sp(x) cout << fixed << setprecision(x)
+#define endl "\n"
+#define ub upper_bound
+#define lb lower_bound
+#define vi vector<int>
+#define ipair pair<int,int>
+#define vpi vector<ipair>
+#define clr(a,x) memset(a,x,sizeof(a))
+#define alt(v) v.begin(),v.end()
+#define ralt(v) v.rbegin(),v.rend()
+#define pb emplace_back
+#define mp make_pair
+#define cntb(x) __builtin_popcount(x)
+#define fab(i,a,b) for(int i=(a);i<(b);i++)
+#define fba(i,a,b) for(int i=(b);i>=(a);i--)
+bool ispoweroftwo(int n){return n&(!(n&(n-1)));}
+int mod=1000000007;
+// int mod=998244353;
+int dx[] = {1,0,-1,0};
+int dy[] = {0,-1,0,1};
+
+///////////////////////////////////////////////////// Input Output Template ////////////////////// 
+template <typename T>
+bool setmax(T &m, const T q){if (m < q){m = q;return true;}else return false;}
+template <typename T>
+bool setmin(T &m, const T q){if (m > q){m = q;return true;}else return false;}
+
+// input vector
+template <typename T>
+istream &operator>>(istream &is, vector<T> &vec){for (auto &v : vec) is >> v;return is;}
+// output vector
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &vec){
+  for (int i = 0; i < vec.size(); ++i){
+    if(i > 0) cout<<" ";
+    os << vec[i];
+  }
+  os << "\n";
+  return os;
+}
+
+template <typename T, size_t N>
+istream &operator>>(istream &is, array<T, N> &vec)
+{
+  for (auto &v : vec)
+    is >> v;
+  return is;
+}
+template <typename T, size_t N>
+ostream &operator<<(ostream &os, const array<T, N> &vec)
+{
+  for (int i = 0; i < N; ++i){
+    if(i > 0) cout<<" ";
+    os << vec[i];
+  }
+  os << "\n";
+  return os;
+}
+
+template <typename T>
+ostream &operator<<(ostream &os, const deque<T> &vec)
+{
+  for (auto it : vec)
+    os << it<<" ";
+  os << "\n";
+  return os;
+}
+// print set
+template <typename T>
+ostream &operator<<(ostream &os, const set<T> &vec)
+{
+  for (auto it : vec)
+    os << it<<" ";
+  os << "\n";
+  return os;
+}
+// print unordered_set
+template <typename T>
+ostream &operator<<(ostream &os, const unordered_set<T> &vec)
+{
+  for (auto it : vec)
+    os << it<<" ";
+  os << "\n";
+  return os;
+}
+// print multiset
+template <typename T>
+ostream &operator<<(ostream &os, const multiset<T> &vec)
+{
+  for (auto it : vec)
+    os << it<<" ";
+  os << "\n";
+  return os;
+}
+// print unordered_multiset
+template <typename T>
+ostream &operator<<(ostream &os, const unordered_multiset<T> &vec)
+{
+  for (auto it : vec)
+    os << it<<" ";
+  os << "\n";
+  return os;
+}
+// pair input
+template <typename T1, typename T2>
+istream &operator>>(istream &is, pair<T1, T2> &pa){is >> pa.first >> pa.second; return is;}
+// pair output
+template <typename T1, typename T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &pa){os << pa.first << " "<<pa.second <<"\n";return os;}
+// print map
+template <typename TK, typename TV>
+ostream &operator<<(ostream &os, const map<TK, TV> &mp){
+  for (auto it : mp)
+    os << it.first<<" "<<it.second<<"\n";
+  os << "\n";
+  return os;
+}
+#define dbg(x) cerr << #x << " = " << (x) << " (L " << __LINE__ << ") " << endl;
+
+////////////////////////////////////// Input Output Template end //////////////////////////
+
+
+
+bool test  = 0;
+
+const int inf = 1e9;
+const int N = 2e5+5;
+
+int k,n;
+void solve(int tc = 0)
+{ 
+                
+}
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+signed main()
+{
+    ios_base::sync_with_stdio(false);cin.tie(NULL);
+    #ifndef ONLINE_JUDGE
+    freopen("tmp/input.txt", "r", stdin);
+    freopen("tmp/output.txt", "w", stdout);
+    #endif
+    int t=1;
+    if(test)
+    cin>>t;
+    for(int i = 1; i <= t; ++i){
+        solve(i);
+    }
+    return 0;
+} 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>template_new</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+def rabin_karp(txt,pat):
+    n = len(txt)
+    m = len(pat)
+    q = mod
+    d = 256
+    p_value = t_value = 0
+    h = 1
+    for i in range(m-1):
+        h *= d
+        h %= q
+
+    for i in range(m):
+        p_value *= d
+        p_value += ord(pat[i])
+        p_value %= q
+        t_value *= d
+        t_value += ord(txt[i])
+        t_value %= q
+
+    for i in range(n-m+1):
+        if t_value == p_value:
+            f = 0
+            for k in range(m):
+                if txt[k+i] != pat[k]:
+                    f = 1
+                    break
+            if f==0:
+                print('Pattern occur at index ' + str(i))
+
+        if(i < n-m):
+            t_value -= h*ord(txt[i])
+            t_value *= d
+            t_value += ord(txt[i+m]) 
+            t_value %= q
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rabin_karp_py</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

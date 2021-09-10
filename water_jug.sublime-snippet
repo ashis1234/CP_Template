@@ -1,0 +1,125 @@
+<snippet>
+	<content><![CDATA[
+'''
+    Auther: ghoshashis545 Ashis Ghosh
+    College: jalpaiguri Govt Enggineering College
+
+'''
+from os import path
+from io import BytesIO, IOBase
+import sys
+from heapq import heappush,heappop
+from functools import cmp_to_key as ctk
+from collections import deque,Counter,defaultdict as dd 
+from bisect import bisect,bisect_left,bisect_right,insort,insort_left,insort_right
+from itertools import permutations
+from datetime import datetime
+from math import ceil,sqrt,log,gcd
+def ii():return int(input())
+def si():return input().rstrip()
+def mi():return map(int,input().split())
+def li():return list(mi())
+abc='abcdefghijklmnopqrstuvwxyz'
+# mod=1000000007
+mod=998244353
+inf = float("inf")
+vow=['a','e','i','o','u']
+dx,dy=[-1,1,0,0],[0,0,1,-1]
+
+def bo(i):
+    return ord(i)-ord('0')
+
+file = 1
+def ceil(a,b):
+    return (a+b-1)//b
+
+# write fastio for getting fastio template.
+    
+
+
+def canMeasureWater(x, y, z):
+    if x > y:
+        temp = x;
+        x = y;
+        y = temp;
+        
+    if z > x + y:
+        return False;
+    
+    # set the initial state will empty jars;
+    queue = [(0, 0)];
+    visited = set((0, 0));
+    came_from = {}
+    while len(queue) > 0:
+        a, b = queue.pop(0);
+        cur = (a,b)
+        if a + b == z:
+            while cur != (0,0):
+                print(cur)
+                cur = came_from[cur]
+            return True;
+        
+        states = set()
+        
+        states.add((x, b)) # fill jar x;
+        states.add((a, y)) # fill jar y;
+        states.add((0, b)) # empty jar x;
+        states.add((a, 0)) # empty jar y;
+        states.add((min(x, b + a), 0 if b < x - a else b - (x - a))) # pour jar y to x;
+        states.add((0 if a + b < y else a - (y - b), min(b + a, y))) # pour jar x to y;
+
+        for state in states:
+            if state in visited:
+                continue;
+            came_from[state] = cur
+            queue.append(state)
+            visited.add(state);
+                
+
+def solve():
+
+
+    # for _ in range(ii()):
+    x,y,z = mi()    
+    canMeasureWater(x,y,z)
+
+
+
+
+
+
+
+            
+
+
+
+
+
+    
+        
+
+
+
+
+
+
+
+
+        
+if __name__ =="__main__":
+
+    if(file):
+
+        if path.exists('input.txt'):
+            sys.stdin=open('input.txt', 'r')
+            sys.stdout=open('output.txt','w')
+        else:
+            input=sys.stdin.readline
+    solve()
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>water_jug</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

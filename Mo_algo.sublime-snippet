@@ -1,0 +1,83 @@
+<snippet>
+	<content><![CDATA[
+int n,q;
+int a[N];
+struct  query{
+    int l,r,idx;
+};
+
+
+int freq[1000005];
+int res;
+
+
+void remove_op(int i){
+    freq[a[i]]--;
+    int p = freq[a[i]];
+    res += (p*p - (p+1)*(p+1))*a[i];
+}
+
+void add_op(int i){
+    freq[a[i]]++;
+    int p = freq[a[i]];
+    res += (p*p - (p-1)*(p-1))*a[i];
+}
+
+
+
+int blk;
+void solve(int tc = 0)
+{
+    cin >> n >> q;
+    for(int i = 1;i <= n; ++i)
+        cin >>a[i];
+    blk = (int)sqrt(n)+1;
+    vector<query> v(q);
+    for(int i = 0; i < q; ++i)
+        cin >> v[i].l >> v[i].r , v[i].idx = i;
+    
+    sort(alt(v),[&](query &x,query &y){
+        int b1 = x.l / blk;
+        int b2 = y.l / blk;
+        if(b1 != b2)
+            return b1 < b2;
+        else
+            return (b1 & 1) ? x.r < y.r : x.r > y.r;
+    });
+
+
+    res = 0;
+    vector<int>ans(q);
+    int currL = 0, currR = 0;
+    for(int i = 0; i < q; ++i){
+        int L = v[i].l;
+        int R = v[i].r;
+        int k = v[i].idx;
+        while (currL < L) remove_op(currL++);
+        while (currL > L) add_op(--currL);
+        while (currR < R) add_op(++currR);
+        while (currR > R) remove_op(currR--);
+        ans[k] = res;
+    }
+    for(int i = 0; i < q; ++i)
+        cout<<ans[i]<<"\n";
+
+
+}
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Mo_algo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

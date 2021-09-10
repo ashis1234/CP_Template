@@ -1,0 +1,72 @@
+<snippet>
+	<content><![CDATA[
+#https://www.lintcode.com/problem/901/description
+class TreeNode:
+    def __init__(self,x):
+        self.val = x
+        self.left,self.right = None,None
+
+class solution:
+    def closestKValues(self, root, target, k):
+    # write your code here
+    # left_stack  []
+    # right_stack [3] 
+    # res = [1, 2]
+    # use two stacks, left_stack and right_stack 
+    # iterate K times, each time, peek from left_stack and right_stack, decide which one is closer
+    left_stack, right_stack = self.getStacks(root, target)
+    res = []
+    for _ in range(k):
+        if left_stack and right_stack:
+            diff_left = abs(left_stack[-1].val - target)
+            diff_right = abs(right_stack[-1].val - target)
+            if diff_left < diff_right:
+                node = self.getPrev(left_stack)
+                res.append(node.val)
+            else:
+                node = self.getNext(right_stack)
+                res.append(node.val)
+        elif left_stack:
+            node = self.getPrev(left_stack)
+            res.append(node.val)
+        elif right_stack:
+            node = self.getNext(right_stack)
+            res.append(node.val)
+    
+    return res
+
+    def getStacks(self, node, target):
+        left_stack, right_stack = [], []
+        while node:
+            if node.val < target:
+                left_stack.append(node)
+                node = node.right
+            else:
+                right_stack.append(node)
+                node = node.left
+        return left_stack, right_stack
+
+    def getPrev(self, left_stack):
+        res = left_stack.pop()
+        node = res.left
+        while node:
+            left_stack.append(node)
+            node = node.right
+        return res
+
+    def getNext(self, right_stack):
+        res = right_stack.pop()
+        node = res.right
+        while node:
+            right_stack.append(node)
+            node = node.left
+        return res
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>KCloser</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

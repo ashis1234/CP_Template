@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+int coprime[N];
+void phi()
+{
+    for(int i=1;i<N;i++) 
+        coprime[i]=i ;
+    for( int i=2;i<N;i++){
+        if(coprime[i] != i)
+            continue;
+        for(int j = i;j < N;j += i)
+            coprime[j] -= coprime[j]/i;
+    }
+    for(int i = 1;i < N;i++)     
+        coprime[i]+=coprime[i-1]; 
+}
+
+]]>
+</content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Count_coprime</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+int n;
+unordered_set<string> done;
+vector<int> edges;
+void DFS(string node, string &st)
+{
+    for (int i = 0; i < st.size(); ++i)
+    {
+        string cur = node+st[i];
+        if (done.find(cur) == done.end())
+        {
+            done.insert(cur);
+            DFS(cur.substr(1), st);
+            edges.push_back(i);
+        }
+    }
+}
+string deBruijn(int n, string st)
+{
+    done.clear(); edges.clear();
+    string startingNode = string(n-1,st[0]);
+    cout<<startingNode<<"\n";
+    DFS(startingNode, st);
+    string res;
+    int len = pow(st.size(), n);
+    for (int i = 0; i < len; ++i) res += st[edges[i]];
+    res += startingNode;
+    return res;
+}
+
+void solve(int tc = 0)
+{
+    cin >> n;
+    string st = "01";
+    cout << deBruijn(n, st) << '\n';
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>De_bruijn</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

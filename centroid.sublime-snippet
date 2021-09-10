@@ -1,0 +1,128 @@
+<snippet>
+	<content><![CDATA[
+
+struct Centroid
+{
+private:
+    int n, nodes,q,level,root;
+    vector<int> subtree,parentcentroid; 
+    vector<set<int>>g;
+    vector<vector<int>>parent;
+    vector<int> depth; 
+ public:
+    Centroid(int _n){
+        n = _n;
+        level = 20;
+        subtree.resize(n+1);
+        parentcentroid.resize(n+1);
+        depth.resize(n+1);
+        g.resize(n+1);
+        parent.assign(n+1,vector<int>(20,-1));
+    }
+    void dfs(int k, int parent)
+    {
+        nodes++;
+        subtree[k] = 1;
+        for(auto it:g[k])
+        {
+            if(it==parent)
+                continue;
+            dfs(it,k);
+            subtree[k]+=subtree[it];
+        }
+    }
+     
+    int centroid(int k, int parent)
+    {
+        for(auto it:g[k])
+        {
+            if(it==parent)
+                continue;
+            if(subtree[it]>(nodes>>1))
+                return centroid(it,k);
+        }
+        return k;
+    }
+     
+    int decompose(int k, int par)
+    {
+        nodes=0;
+        dfs(k, k);
+        int node = centroid(k, k);
+        parentcentroid[node] = par;
+        for(auto it:g[node])
+        {
+            g[it].erase(node);
+            decompose(it, node);
+        }
+        return node;
+    }
+     
+
+    void dfs1(int u,int p)
+    {
+        for(auto it:g[u])
+        {
+            if(it == p)
+                continue;
+            depth[it] = depth[u]+1;
+            parent[it][0] = u;
+            dfs1(it,u);
+        }
+    }
+    void precomputeSparseMatrix(int n) 
+    { 
+        for (int i=1; i<level; i++) 
+            for (int node = 1; node <= n; node++) 
+                if (parent[node][i-1] != -1) 
+                    parent[node][i] = parent[parent[node][i-1]][i-1]; 
+    }
+     
+    int lca(int u, int v)
+    { 
+        int diff = abs(depth[u] - depth[v]);
+        if(depth[u] < depth[v])
+            swap(u,v); 
+        for (int i=0; i<level; i++) 
+            if ((diff>>i)&1) 
+                u = parent[u][i];
+        if (u == v) 
+            return u;
+        
+        for (int i = level-1; i >= 0; i--)  
+        {  
+            if(parent[u][i] != parent[v][i])  
+            {  
+                u = parent[u][i];  
+                v = parent[v][i];  
+            }  
+        } 
+        
+        return parent[u][0];
+        
+    }
+     
+    int distance(int u,int v){
+        int lcA = lca(u,v);
+        return depth[u] + depth[v] - 2*depth[lcA];
+    }
+    void calc(){
+        for(int i = 1,x,y; i < n; ++i){
+            cin >>x >>y;
+            g[x].insert(y);
+            g[y].insert(x);
+        }     
+        dfs1(1,-1);
+        precomputeSparseMatrix(n);
+        root = decompose(1,-1);
+    }
+
+};
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>centroid</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
