@@ -1,0 +1,87 @@
+<snippet>
+	<content><![CDATA[
+
+class Euler
+{
+    private:
+        int n;
+        vector<set<int>> adj;
+        vector<int> vis;
+    public:
+        Euler(int _n){
+            n = _n;
+            adj.resize(n);
+            vis.assign(n,0);
+        }
+        void addEdge(int u,int v){
+            --u,--v;
+            adj[u].insert(v);
+            adj[v].insert(u);
+        }
+        void dfs(int u){
+            vis[u] = 1;
+            for(auto it : adj[u]){
+                if(vis[it] == 0)
+                    dfs(it);
+            }
+        }
+ 
+        // 0 -> non-eulerian graph
+        // 1 -> Euler graph (starting and ending vertex same and each visited exactly once)
+        // 2 -> semi-euler graph starting and ending vertex diferent and each visited exactly once)
+        int check_euler_graph(){
+            bool f = 0;
+            int cnt_odd_deg = 0;
+            for(int i = 0; i < n; ++i){
+                int sz = (int)adj[i].size();
+                if(sz % 2)
+                    cnt_odd_deg += 1;
+                if(vis[i] == 0 and (int)adj[i].size() > 0){
+                    if(f)
+                        return 0;
+                    dfs(i);
+                    f = 1;
+                }
+            }
+            if(cnt_odd_deg > 2)
+                return 0;
+            return ((cnt_odd_deg == 2)?2:1);
+        }
+ 
+        void print_euler_path(int m){
+            stack<int>st;
+            int u = 0;
+            vector<int>circuit;
+            st.push(u);
+            while(!st.empty())
+            {
+                if(!adj[u].empty()){
+                    int p = *adj[u].begin();
+                    st.push(u);
+                    adj[p].erase(adj[p].find(u));
+                    adj[u].erase(p);
+                    u = p;
+                }
+                else{
+                    circuit.push_back(u);
+                    u = st.top();
+                    st.pop();
+                }
+            }
+            if((int)circuit.size() != m+1){
+                cout<<"IMPOSSIBLE\n";
+                return;
+            }
+            for(auto it : circuit)
+                cout<<it+1<<" ";
+            cout<<"\n";
+        }
+};
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Euler_tour</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
